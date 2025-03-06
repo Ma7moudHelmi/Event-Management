@@ -1,5 +1,6 @@
 package com.iti.eventmanagementbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,8 +24,11 @@ public class Booking {
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "eventId")
+    @JoinColumn(name = "event_id")
     private Event event;
+
+    @ManyToOne
+    private BusTransportation transportation;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;

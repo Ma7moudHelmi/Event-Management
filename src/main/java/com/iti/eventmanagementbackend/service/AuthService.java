@@ -19,19 +19,22 @@ public class AuthService {
     ApplicationContext context;
 
     public RefreshTokenResponse refreshAccessToken(String refreshToken) {
+
         try {
+
             String userName = jwtService.extractUserName(refreshToken);
+
             UserDetails userDetails = context.getBean(AppUserDetailsServices.class).loadUserByUsername(userName);
 
             if (jwtService.validateToken(refreshToken, userDetails)) {
                 String newAccessToken = jwtService.generateAccessToken(userDetails);
-
+                System.out.println(newAccessToken);
                 return new RefreshTokenResponse(newAccessToken);
             } else {
-                throw new IllegalArgumentException("Invalid Refresh Token");
+                throw new IllegalArgumentException("Refresh token not found or invalid");
             }
         } catch (JwtException message) {
-            return null;
+            throw new JwtException("Refresh token not found or invalid");
         }
 
     }

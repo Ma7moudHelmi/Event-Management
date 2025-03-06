@@ -11,5 +11,6 @@ public class BookingDtoRequest {
     private long eventId;
     private Double totalAmount;
     private String userEmail;
+    private Long busId;
 
 }

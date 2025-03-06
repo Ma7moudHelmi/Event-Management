@@ -4,12 +4,14 @@ import com.iti.eventmanagementbackend.model.Category;
 import com.iti.eventmanagementbackend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIM')")
 public class CategoryController {
 
     @Autowired

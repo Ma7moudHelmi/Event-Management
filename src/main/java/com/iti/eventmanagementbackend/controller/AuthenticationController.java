@@ -6,6 +6,7 @@ import com.iti.eventmanagementbackend.DTO.response.RefreshTokenResponse;
 import com.iti.eventmanagementbackend.service.AppUserDetailsServices;
 import com.iti.eventmanagementbackend.service.AuthService;
 import com.iti.eventmanagementbackend.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.WebUtils;
 
-
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, exposedHeaders = {
-//        "Access-Control-Allow-Credentials"},allowCredentials = "true")
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
-//    @Autowired
-//    private AuthenticationUsers authenticationUsers;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -51,7 +47,6 @@ public class AuthenticationController {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             UserDetails userDetails = context.getBean(AppUserDetailsServices.class).loadUserByUsername(loginRequest.getEmail());
-//            String role = authentication.getAuthorities().iterator().next().getAuthority().substring(5);
             final String accessToken = jwtService.generateAccessToken(userDetails);
             final String refreshToken = jwtService.generateRefreshToken(userDetails);
             authService.saveRefreshTokenInHttpOnlyCookie(response, refreshToken);
@@ -64,12 +59,11 @@ public class AuthenticationController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<RefreshTokenResponse> refreshToken(HttpServletRequest request) {
-
         if (WebUtils.getCookie(request, "refreshToken") != null) {
-            RefreshTokenResponse response = authService.refreshAccessToken(WebUtils.getCookie(request, "refreshToken").getValue());
-            return ResponseEntity.ok(response);
+            RefreshTokenResponse refreshTokenResponse = authService.refreshAccessToken(WebUtils.getCookie(request, "refreshToken").getValue());
+            return ResponseEntity.ok(refreshTokenResponse);
         }
-        return null;
+         throw new JwtException("Refresh token not found or invalid");
     }
 
     @PostMapping("/logout")
