@@ -15,14 +15,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class StopPointService {
-    @Autowired
-    private StopPointRepository stopPointRepository;
+    private final StopPointRepository stopPointRepository;
 
-    @Autowired
-    private BusTransportationRepository busTransportationRepository;
+    private final BusTransportationRepository busTransportationRepository;
 
-    @Autowired
-    private StopPointsMapper stopPointsMapper;
+    private final StopPointsMapper stopPointsMapper;
+
+    public StopPointService(StopPointRepository stopPointRepository, BusTransportationRepository busTransportationRepository, StopPointsMapper stopPointsMapper) {
+        this.stopPointRepository = stopPointRepository;
+        this.busTransportationRepository = busTransportationRepository;
+        this.stopPointsMapper = stopPointsMapper;
+    }
 
     public StopPointsDtoResponse createStopPoint(StopPointsDtoRequest stopPointsDtoRequest) {
         if (stopPointsDtoRequest.getLocation() == null || stopPointsDtoRequest.getLocation().isEmpty()) throw new IllegalArgumentException("Location cannot be empty");

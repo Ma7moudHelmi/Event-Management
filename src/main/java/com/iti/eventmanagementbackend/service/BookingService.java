@@ -25,20 +25,25 @@ import java.util.stream.Collectors;
 @Service
 public class BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
-    @Autowired
-    private BookingMapper bookingMapper;
+    private final BookingMapper bookingMapper;
 
-    @Autowired
-    private BusTransportationRepository busTransportationRepository;
+    private final BusTransportationRepository busTransportationRepository;
+
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository,
+                          EventRepository eventRepository, BookingMapper bookingMapper,
+                          BusTransportationRepository busTransportationRepository) {
+        this.bookingRepository = bookingRepository;
+        this.userRepository = userRepository;
+        this.eventRepository = eventRepository;
+        this.bookingMapper = bookingMapper;
+        this.busTransportationRepository = busTransportationRepository;
+    }
 
     public Booking createBooking(BookingDtoRequest bookingDtoRequest, Booking booking) {
         Users users = userRepository.findByEmail(bookingDtoRequest.getUserEmail());

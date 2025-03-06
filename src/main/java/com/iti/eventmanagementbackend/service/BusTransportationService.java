@@ -17,14 +17,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class BusTransportationService {
-    @Autowired
-    private BusTransportationRepository busTransportationRepository;
+    private final BusTransportationRepository busTransportationRepository;
 
-    @Autowired
-    private EventRepository eventRepository;
 
-    @Autowired
-    private TransportationMapper transportationMapper;
+    private final TransportationMapper transportationMapper;
+
+    public BusTransportationService(BusTransportationRepository busTransportationRepository ,
+                                    TransportationMapper transportationMapper) {
+        this.busTransportationRepository = busTransportationRepository;
+        this.transportationMapper = transportationMapper;
+    }
 
     public BusTransportation createBusTransportation(BusTransportationDtoRequest bus) {
         BusTransportation busTransportation = new BusTransportation();

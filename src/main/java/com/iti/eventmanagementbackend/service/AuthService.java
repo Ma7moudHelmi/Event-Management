@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
-    @Autowired
+    final
     ApplicationContext context;
+
+    public AuthService(JwtService jwtService, ApplicationContext context) {
+        this.jwtService = jwtService;
+        this.context = context;
+    }
 
     public RefreshTokenResponse refreshAccessToken(String refreshToken) {
 
