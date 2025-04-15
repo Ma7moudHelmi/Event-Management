@@ -32,6 +32,7 @@ public class UserService {
 
     public Users getUserProfile(HttpServletRequest request) {
         String token = WebUtils.getCookie(request,"accessToken").getValue();
+        
         String email = jwtService.extractUserName(token);
         return userRepository.findByEmail(email);
     }
