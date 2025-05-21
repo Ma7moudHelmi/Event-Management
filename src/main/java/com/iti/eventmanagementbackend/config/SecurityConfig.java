@@ -59,7 +59,7 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.configurationSource(corsFilter())).csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req -> req.requestMatchers("api/v1/auth/**").permitAll()
+                .authorizeHttpRequests(req -> req.requestMatchers("api/v1/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/v1/events/**").permitAll()
                         .anyRequest().authenticated())
 

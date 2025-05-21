@@ -100,4 +100,10 @@ public class BookingService {
         BookingDtoResponse bookingDtoResponse = new BookingMapper().toDto(booking);
         return ResponseEntity.ok(bookingDtoResponse);
     }
+
+    public ResponseEntity<BookingDtoResponse> deleteBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(IllegalArgumentException::new);
+        bookingRepository.delete(booking);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,34 +1,27 @@
 package com.iti.eventmanagementbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@Entity
 @Data
-public class Booking {
+@Entity
+public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private boolean paid;
-    private String status;
-    private String email;
-    private String contactNo;
-    private Double totalAmount;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users users;
+    private Users userId;
+    private String paymentId;
+    private String currency;
+    private Long amount;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
-
-    @ManyToOne
-    private BusTransportation transportation;
+    @JoinColumn(name = "booking_id")
+    private Booking bookingId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
@@ -45,5 +38,4 @@ public class Booking {
     private void onUpdate(){
         this.updatedAt=LocalDateTime.now();
     }
-
 }

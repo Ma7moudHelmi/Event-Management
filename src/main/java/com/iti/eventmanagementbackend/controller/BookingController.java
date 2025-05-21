@@ -6,7 +6,6 @@ import com.iti.eventmanagementbackend.DTO.response.GetBookingDataDtoResponse;
 import com.iti.eventmanagementbackend.model.Booking;
 import com.iti.eventmanagementbackend.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,8 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.PatchExchange;
-
 import java.util.List;
 
 
@@ -26,8 +23,8 @@ public class BookingController {
     private BookingService bookingService;
 
 
-    @GetMapping
     @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIM')")
+    @GetMapping
     public ResponseEntity<List<BookingDtoResponse>> getBookings (){
         return bookingService.getBookings();
     }
@@ -63,5 +60,10 @@ public class BookingController {
     @PatchMapping("/user/{bookingId}")
     public ResponseEntity<BookingDtoResponse> userUpdateBookingStatus(@PathVariable Long bookingId) {
         return bookingService.userUpdateBookingStatus(bookingId);
+    }
+
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<BookingDtoResponse> deleteBooking(@PathVariable Long bookingId) {
+        return bookingService.deleteBooking(bookingId);
     }
 }
